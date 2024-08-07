@@ -1,4 +1,4 @@
-name: Publish sdk-iframe-provider
+name: Publish sdk-metamask-proxy-provider
 
 on:
   push:

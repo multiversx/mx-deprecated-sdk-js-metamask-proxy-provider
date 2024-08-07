@@ -3,21 +3,21 @@ import {
   ICrossWindowWalletAccount
 } from '@multiversx/sdk-web-wallet-cross-window-provider/out/CrossWindowProvider';
 import { ErrProviderNotInitialized } from '@multiversx/sdk-web-wallet-cross-window-provider/out/errors';
-import { IFrameManager } from '../IFrameManager/IFrameManager';
+import { MetamaskProxyManager } from '../MetamaskProxyManager/MetamaskProxyManager';
 
-export class IFrameProvider extends CrossWindowProvider {
+export class MetamaskProxyProvider extends CrossWindowProvider {
   public constructor() {
     super();
-    this.windowManager = new IFrameManager();
+    this.windowManager = new MetamaskProxyManager();
   }
 
-  public static getInstance(): IFrameProvider {
-    if (!IFrameProvider._instance) {
-      IFrameProvider._instance = new IFrameProvider();
-      return IFrameProvider._instance;
+  public static getInstance(): MetamaskProxyProvider {
+    if (!MetamaskProxyProvider._instance) {
+      MetamaskProxyProvider._instance = new MetamaskProxyProvider();
+      return MetamaskProxyProvider._instance;
     }
 
-    return IFrameProvider._instance;
+    return MetamaskProxyProvider._instance;
   }
 
   public override async init(): Promise<boolean> {

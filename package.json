@@ -1,7 +1,7 @@
 {
-  "name": "@multiversx/sdk-iframe-provider",
-  "version": "0.1.0",
-  "description": "Signing provider for dApps: IFrame Provider",
+  "name": "@multiversx/sdk-metamask-proxy-provider",
+  "version": "0.2.0",
+  "description": "Signing provider for dApps: Metamask Proxy Provider",
   "main": "out/index.js",
   "types": "out/index.d.js",
   "files": [
