@@ -1,5 +1,8 @@
-import { CrossWindowProvider, ICrossWindowWalletAccount } from '@multiversx/sdk-web-wallet-cross-window-provider/out/CrossWindowProvider';
-import { ErrProviderNotInitialized } from '../errors';
+import {
+  CrossWindowProvider,
+  ICrossWindowWalletAccount
+} from '@multiversx/sdk-web-wallet-cross-window-provider/out/CrossWindowProvider';
+import { ErrProviderNotInitialized } from '@multiversx/sdk-web-wallet-cross-window-provider/out/errors';
 import { IFrameManager } from '../IFrameManager/IFrameManager';
 
 export class IFrameProvider extends CrossWindowProvider {

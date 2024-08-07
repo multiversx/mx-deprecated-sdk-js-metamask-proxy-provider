@@ -1,4 +1,4 @@
-name: Publish sdk-web-wallet-cross-window-provider
+name: Publish sdk-iframe-provider
 
 on:
   push:

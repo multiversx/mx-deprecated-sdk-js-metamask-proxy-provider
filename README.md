@@ -1,4 +1,4 @@
-# mx-sdk-js-web-wallet-cross-window-provider
+# mx-sdk-js-iframe-provider
 
 Signing provider for dApps: IFrame Provider. 
 
@@ -8,11 +8,11 @@ Note that **we recommend using [sdk-dapp](https://github.com/multiversx/mx-sdk-d
 
 ## Distribution
 
-[npm](https://www.npmjs.com/package/@multiversx/sdk-web-wallet-cross-window-provider)
+[npm](https://www.npmjs.com/package/@multiversx/sdk-iframe-provider)
 
 ## Installation
 
-`sdk-iframe-provider` is delivered via [npm](https://www.npmjs.com/package/@multiversx/sdk-web-wallet-cross-window-provider), therefore it can be installed as follows:
+`sdk-iframe-provider` is delivered via [npm](https://www.npmjs.com/package/@multiversx/sdk-iframe-provider), therefore it can be installed as follows:
 
 ```
 npm install @multiversx/sdk-iframe-provider
