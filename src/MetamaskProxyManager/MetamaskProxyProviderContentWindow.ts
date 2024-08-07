@@ -7,9 +7,9 @@ import {
   iframeStyle,
   titleElementStyle,
   toggleIconElementStyle
-} from './iFrameManager.styles';
+} from './MetamaskProxyManager.styles';
 
-export class IFrameProviderContentWindow {
+export class MetamaskProxyProviderContentWindow {
   public iframe: HTMLIFrameElement;
   public contentWindow: Window | null;
   public walletAddress = '';
@@ -68,7 +68,7 @@ export class IFrameProviderContentWindow {
     titleElement.innerText = 'MetaMask Login';
     titleElement.style.cssText = titleElementStyle;
 
-    headingElement.id = 'iframe-toggle-button';
+    headingElement.id = 'metamask-proxy-window-toggle-button';
     headingElement.style.cssText = headingElementStyle;
     headingElement.appendChild(metaMaskIconElement);
     headingElement.appendChild(titleElement);
@@ -109,7 +109,7 @@ export class IFrameProviderContentWindow {
     this.iframe.onload = () => {
       this.contentWindow = this.iframe.contentWindow;
 
-      const event = new CustomEvent('iframeWindowReady', {
+      const event = new CustomEvent('metamaskProxyWindowReady', {
         detail: this.iframe
       });
 

@@ -6,14 +6,14 @@ import {
 } from '@multiversx/sdk-dapp-utils/out/types/crossWindowProviderTypes';
 import { WindowManager } from '@multiversx/sdk-web-wallet-cross-window-provider/out/WindowManager';
 import { safeDocument } from '../constants';
-import { IFrameProviderContentWindow } from './IFrameProviderContentWindow';
+import { MetamaskProxyProviderContentWindow } from './MetamaskProxyProviderContentWindow';
 
-export class IFrameManager extends WindowManager {
-  private floatingWalletComponent: IFrameProviderContentWindow | null = null;
-  private readonly iframeId = 'floating-wallet';
+export class MetamaskProxyManager extends WindowManager {
+  private metamaskProxyWalletComponent: MetamaskProxyProviderContentWindow | null = null;
+  private readonly iframeId = 'metamask-proxy-wallet';
 
-  public get floatingWallet() {
-    return this.floatingWalletComponent;
+  public get metamaskProxyWallet() {
+    return this.metamaskProxyWalletComponent;
   }
 
   public override async postMessage<T extends CrossWindowProviderRequestEnums>({
@@ -36,7 +36,7 @@ export class IFrameManager extends WindowManager {
 
   public override async closeConnection(): Promise<boolean> {
     const result = await super.closeConnection();
-    this.floatingWalletComponent?.remove();
+    this.metamaskProxyWalletComponent?.remove();
     this.walletWindow = null;
     return result;
   }
@@ -50,27 +50,27 @@ export class IFrameManager extends WindowManager {
       return;
     }
 
-    this.floatingWallet?.setWalletVisible(false);
+    this.metamaskProxyWallet?.setWalletVisible(false);
   }
 
   public override async setWalletWindow(): Promise<void> {
     if (this.walletWindow) {
-      this.floatingWallet?.setWalletVisible(true);
+      this.metamaskProxyWallet?.setWalletVisible(true);
       return;
     }
 
     const anchor = safeDocument.getElementById?.('root');
-    this.floatingWalletComponent = new IFrameProviderContentWindow({
+    this.metamaskProxyWalletComponent = new MetamaskProxyProviderContentWindow({
       id: this.iframeId,
       anchor,
       url: this.walletUrl
     });
-    this.floatingWalletComponent.walletAddress = this.walletUrl;
+    this.metamaskProxyWalletComponent.walletAddress = this.walletUrl;
 
     const iframe = await new Promise(
       (resolve: (value?: HTMLIFrameElement) => void) => {
-        this.floatingWalletComponent?.addEventListener(
-          'iframeWindowReady',
+        this.metamaskProxyWalletComponent?.addEventListener(
+          'metamaskProxyWindowReady',
           (event: Event & { detail?: HTMLIFrameElement }) => {
             resolve(event.detail);
           }
@@ -87,6 +87,6 @@ export class IFrameManager extends WindowManager {
   }
 
   public setWalletVisible(visible: boolean): void {
-    this.floatingWalletComponent?.setWalletVisible(visible);
+    this.metamaskProxyWalletComponent?.setWalletVisible(visible);
   }
 }
