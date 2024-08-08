@@ -8,7 +8,10 @@ import {
   CrossWindowProvider,
   ICrossWindowWalletAccount
 } from '@multiversx/sdk-web-wallet-cross-window-provider/out/CrossWindowProvider';
-import { ErrProviderNotInitialized } from '@multiversx/sdk-web-wallet-cross-window-provider/out/errors';
+import {
+  ErrCouldNotLogin,
+  ErrProviderNotInitialized
+} from '@multiversx/sdk-web-wallet-cross-window-provider/out/errors';
 import { MetamaskProxyManager } from '../MetamaskProxyManager/MetamaskProxyManager';
 
 export type MetamaskProxyProviderEventDataType<
@@ -19,6 +22,8 @@ export type MetamaskProxyProviderEventDataType<
 };
 
 export class MetamaskProxyProvider extends CrossWindowProvider {
+  protected readonly windowManager: MetamaskProxyManager;
+
   public constructor() {
     super();
     this.windowManager = new MetamaskProxyManager({
@@ -49,6 +54,13 @@ export class MetamaskProxyProvider extends CrossWindowProvider {
   ): Promise<ICrossWindowWalletAccount> {
     await this.windowManager.setWalletWindow();
     const account = await super.login(options);
+
+    if (!account.address) {
+      this.windowManager.metamaskProxyWallet?.remove();
+      this.windowManager.walletWindow = null;
+      throw new ErrCouldNotLogin();
+    }
+
     return account;
   }
 

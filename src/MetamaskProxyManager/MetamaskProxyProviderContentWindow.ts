@@ -75,18 +75,16 @@ export class MetamaskProxyProviderContentWindow {
     headingElement.appendChild(this.title);
     headingElement.appendChild(toggleIconElement);
 
-    headingElement.onclick = this.toggleVisibility.bind(this);
+    headingElement.onclick = () => {
+      if (this.body.style.visibility === 'visible') {
+        this.forceHidden();
+        return;
+      }
+
+      this.forceVisible();
+    };
 
     this.header.appendChild(headingElement);
-  }
-
-  private toggleVisibility() {
-    if (this.body.style.visibility === 'hidden') {
-      this.forceHidden();
-      return;
-    }
-
-    this.forceVisible();
   }
 
   private buildContainer() {
@@ -110,6 +108,7 @@ export class MetamaskProxyProviderContentWindow {
 
   private forceVisible() {
     this.body.style.visibility = 'visible';
+    this.container.style.visibility = 'visible';
     this.container.style.height = 'calc(100vh - 64px - 8px)';
     this.container.style.transform = 'translateX(0)';
     this.title.style.opacity = '1';

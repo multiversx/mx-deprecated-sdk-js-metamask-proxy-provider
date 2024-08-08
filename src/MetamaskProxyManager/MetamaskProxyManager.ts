@@ -122,11 +122,6 @@ export class MetamaskProxyManager extends WindowManager {
           window.location.reload();
           return;
         }
-
-        if (type === CrossWindowProviderResponseEnums.cancelResponse) {
-          this.metamaskProxyWalletComponent?.remove();
-          this.walletWindow = null;
-        }
       }
     );
   };
