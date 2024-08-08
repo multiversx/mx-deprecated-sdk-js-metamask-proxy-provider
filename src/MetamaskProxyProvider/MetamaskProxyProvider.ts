@@ -47,8 +47,9 @@ export class MetamaskProxyProvider extends CrossWindowProvider {
       token?: string;
     } = {}
   ): Promise<ICrossWindowWalletAccount> {
+    const account = await super.login(options);
     await this.windowManager.setWalletWindow();
-    return await super.login(options);
+    return account;
   }
 
   public override async logout(): Promise<boolean> {
