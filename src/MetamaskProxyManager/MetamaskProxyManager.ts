@@ -51,10 +51,7 @@ export class MetamaskProxyManager extends WindowManager {
   }
 
   public override isWalletOpened(): boolean {
-    return Boolean(
-      this.walletWindow &&
-        this.metamaskProxyWallet?.getContainer().style.visibility === 'visible'
-    );
+    return Boolean(this.walletWindow);
   }
 
   public override closeWalletWindow(): void {
