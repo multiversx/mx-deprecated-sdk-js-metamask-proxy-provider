@@ -16,6 +16,7 @@ export class MetamaskProxyProviderContentWindow {
 
   private readonly container: HTMLDivElement;
   private readonly header: HTMLDivElement;
+  private readonly title: HTMLDivElement;
   private readonly body: HTMLDivElement;
 
   public constructor(props: { id: string; url: string; anchor?: HTMLElement }) {
@@ -23,6 +24,7 @@ export class MetamaskProxyProviderContentWindow {
 
     this.container = safeDocument.createElement?.('div');
     this.header = safeDocument.createElement?.('div');
+    this.title = safeDocument.createElement?.('div');
     this.body = safeDocument.createElement?.('div');
     this.iframe = safeDocument.createElement?.('iframe');
 
@@ -60,42 +62,31 @@ export class MetamaskProxyProviderContentWindow {
     const headingElement = safeDocument.createElement?.('div');
     const metaMaskIconElement = safeDocument.createElement?.('div');
     const toggleIconElement = safeDocument.createElement?.('div');
-    const titleElement = safeDocument.createElement?.('div');
 
     metaMaskIconElement.innerHTML = metaMaskIcon;
     toggleIconElement.innerHTML = toggleIcon;
     toggleIconElement.style.cssText = toggleIconElementStyle;
-    titleElement.innerText = 'MetaMask Login';
-    titleElement.style.cssText = titleElementStyle;
+    this.title.innerText = 'MetaMask Login';
+    this.title.style.cssText = titleElementStyle;
 
     headingElement.id = 'metamask-proxy-window-toggle-button';
     headingElement.style.cssText = headingElementStyle;
     headingElement.appendChild(metaMaskIconElement);
-    headingElement.appendChild(titleElement);
+    headingElement.appendChild(this.title);
     headingElement.appendChild(toggleIconElement);
 
-    headingElement.onclick = () => {
-      this.body.style.visibility =
-        this.body.style.visibility === 'hidden' ? 'visible' : 'hidden';
-
-      this.container.style.height =
-        this.body.style.visibility === 'hidden'
-          ? '80px'
-          : 'calc(100vh - 64px - 8px)';
-
-      this.container.style.transform =
-        this.body.style.visibility === 'hidden'
-          ? 'translateX(calc(min(420px, 100vw - 8px) - 80px))'
-          : 'translateX(0)';
-
-      titleElement.style.opacity =
-        this.body.style.visibility === 'hidden' ? 0 : 1;
-
-      toggleIconElement.style.opacity =
-        this.body.style.visibility === 'hidden' ? 0 : 1;
-    };
+    headingElement.onclick = this.toggleVisibility.bind(this);
 
     this.header.appendChild(headingElement);
+  }
+
+  private toggleVisibility() {
+    if (this.body.style.visibility === 'hidden') {
+      this.forceHidden();
+      return;
+    }
+
+    this.forceVisible();
   }
 
   private buildContainer() {
@@ -115,6 +106,21 @@ export class MetamaskProxyProviderContentWindow {
 
       this.iframe.dispatchEvent(event);
     };
+  }
+
+  private forceVisible() {
+    this.body.style.visibility = 'visible';
+    this.container.style.height = 'calc(100vh - 64px - 8px)';
+    this.container.style.transform = 'translateX(0)';
+    this.title.style.opacity = '1';
+  }
+
+  private forceHidden() {
+    this.body.style.visibility = 'hidden';
+    this.container.style.height = '80px';
+    this.container.style.transform =
+      'translateX(calc(min(420px, 100vw - 8px) - 80px)';
+    this.title.style.opacity = '0';
   }
 
   public getContainer(): HTMLDivElement {
@@ -138,7 +144,12 @@ export class MetamaskProxyProviderContentWindow {
   }
 
   public setWalletVisible(visible: boolean): void {
-    this.container.style.visibility = visible ? 'visible' : 'hidden';
+    if (visible) {
+      this.forceVisible();
+      return;
+    }
+
+    this.forceHidden();
   }
 
   public addEventListener(

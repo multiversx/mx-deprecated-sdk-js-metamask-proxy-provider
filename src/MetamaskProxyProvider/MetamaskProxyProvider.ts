@@ -1,3 +1,9 @@
+import type { SignableMessage } from '@multiversx/sdk-core/out';
+import type { Transaction } from '@multiversx/sdk-core/out/transaction';
+import {
+  CrossWindowProviderResponseEnums,
+  ReplyWithPostMessagePayloadType
+} from '@multiversx/sdk-dapp-utils/out';
 import {
   CrossWindowProvider,
   ICrossWindowWalletAccount
@@ -5,19 +11,28 @@ import {
 import { ErrProviderNotInitialized } from '@multiversx/sdk-web-wallet-cross-window-provider/out/errors';
 import { MetamaskProxyManager } from '../MetamaskProxyManager/MetamaskProxyManager';
 
+export type MetamaskProxyProviderEventDataType<
+  T extends CrossWindowProviderResponseEnums
+> = {
+  type: T;
+  payload: ReplyWithPostMessagePayloadType<T>;
+};
+
 export class MetamaskProxyProvider extends CrossWindowProvider {
   public constructor() {
     super();
-    this.windowManager = new MetamaskProxyManager();
+    this.windowManager = new MetamaskProxyManager({
+      onDisconnect: this.logout.bind(this)
+    });
   }
 
   public static getInstance(): MetamaskProxyProvider {
     if (!MetamaskProxyProvider._instance) {
       MetamaskProxyProvider._instance = new MetamaskProxyProvider();
-      return MetamaskProxyProvider._instance;
+      return <MetamaskProxyProvider>MetamaskProxyProvider._instance;
     }
 
-    return MetamaskProxyProvider._instance;
+    return <MetamaskProxyProvider>MetamaskProxyProvider._instance;
   }
 
   public override async init(): Promise<boolean> {
@@ -32,10 +47,8 @@ export class MetamaskProxyProvider extends CrossWindowProvider {
       token?: string;
     } = {}
   ): Promise<ICrossWindowWalletAccount> {
-    const account = await super.login(options);
     await this.windowManager.setWalletWindow();
-
-    return account;
+    return await super.login(options);
   }
 
   public override async logout(): Promise<boolean> {
@@ -54,6 +67,34 @@ export class MetamaskProxyProvider extends CrossWindowProvider {
     this.disconnect();
 
     return true;
+  }
+
+  public override async signTransaction(
+    transaction: Transaction
+  ): Promise<Transaction> {
+    await this.windowManager.setWalletWindow();
+    return super.signTransaction(transaction);
+  }
+
+  public override async signTransactions(
+    transactions: Transaction[]
+  ): Promise<Transaction[]> {
+    await this.windowManager.setWalletWindow();
+    return super.signTransactions(transactions);
+  }
+
+  public override async guardTransactions(
+    transactions: Transaction[]
+  ): Promise<Transaction[]> {
+    await this.windowManager.setWalletWindow();
+    return super.guardTransactions(transactions);
+  }
+
+  public override async signMessage(
+    message: SignableMessage
+  ): Promise<SignableMessage> {
+    await this.windowManager.setWalletWindow();
+    return super.signMessage(message);
   }
 
   public override async openPopupConsent(): Promise<boolean> {

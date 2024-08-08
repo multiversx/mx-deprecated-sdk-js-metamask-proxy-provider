@@ -1,3 +1,4 @@
+import { CrossWindowProviderResponseEnums } from '@multiversx/sdk-dapp-utils/out';
 import { responseTypeMap } from '@multiversx/sdk-dapp-utils/out/constants/crossWindowProviderConstants';
 import { CrossWindowProviderRequestEnums } from '@multiversx/sdk-dapp-utils/out/enums/crossWindowProviderEnums';
 import {
@@ -5,12 +6,21 @@ import {
   PostMessageReturnType
 } from '@multiversx/sdk-dapp-utils/out/types/crossWindowProviderTypes';
 import { WindowManager } from '@multiversx/sdk-web-wallet-cross-window-provider/out/WindowManager';
-import { safeDocument } from '../constants';
+import { safeDocument, safeWindow } from '../constants';
+import { MetamaskProxyProviderEventDataType } from '../MetamaskProxyProvider';
 import { MetamaskProxyProviderContentWindow } from './MetamaskProxyProviderContentWindow';
 
 export class MetamaskProxyManager extends WindowManager {
-  private metamaskProxyWalletComponent: MetamaskProxyProviderContentWindow | null = null;
+  private metamaskProxyWalletComponent: MetamaskProxyProviderContentWindow | null =
+    null;
   private readonly iframeId = 'metamask-proxy-wallet';
+
+  constructor(props?: { onDisconnect?: () => Promise<boolean> }) {
+    super();
+    this.registerToChildResponse({
+      onDisconnect: props?.onDisconnect
+    });
+  }
 
   public get metamaskProxyWallet() {
     return this.metamaskProxyWalletComponent;
@@ -30,8 +40,7 @@ export class MetamaskProxyManager extends WindowManager {
       this.walletUrl
     );
 
-    const data = await this.listenOnce(responseTypeMap[type]);
-    return data;
+    return await this.listenOnce(responseTypeMap[type]);
   }
 
   public override async closeConnection(): Promise<boolean> {
@@ -42,7 +51,10 @@ export class MetamaskProxyManager extends WindowManager {
   }
 
   public override isWalletOpened(): boolean {
-    return Boolean(this.walletWindow);
+    return Boolean(
+      this.walletWindow &&
+        this.metamaskProxyWallet?.getContainer().style.visibility === 'visible'
+    );
   }
 
   public override closeWalletWindow(): void {
@@ -89,4 +101,49 @@ export class MetamaskProxyManager extends WindowManager {
   public setWalletVisible(visible: boolean): void {
     this.metamaskProxyWalletComponent?.setWalletVisible(visible);
   }
+
+  private registerToChildResponse = <
+    T extends CrossWindowProviderResponseEnums
+  >(props?: {
+    onDisconnect?: () => Promise<boolean>;
+  }) => {
+    safeWindow.addEventListener?.(
+      'message',
+      async (event: MessageEvent<MetamaskProxyProviderEventDataType<T>>) => {
+        const { data } = event;
+
+        const type = data.type;
+
+        console.log('received message from child', {
+          event,
+          data,
+          type,
+          walletUrl: this.walletUrl,
+          eventOrigin: event.origin
+        });
+
+        if (event.origin !== this.walletUrl) {
+          console.error(
+            `invalid origin. expected ${this.walletUrl} and got ${event.origin}`
+          );
+          return;
+        }
+
+        if (type === CrossWindowProviderResponseEnums.disconnectResponse) {
+          console.log('received disconnect response');
+          await props?.onDisconnect?.();
+          sessionStorage.clear();
+          localStorage.clear();
+          window.location.reload();
+          return;
+        }
+
+        if (type === CrossWindowProviderResponseEnums.cancelResponse) {
+          console.log('received cancel response');
+          this.metamaskProxyWalletComponent?.remove();
+          this.walletWindow = null;
+        }
+      }
+    );
+  };
 }
