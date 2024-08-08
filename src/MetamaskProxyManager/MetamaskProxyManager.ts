@@ -114,23 +114,11 @@ export class MetamaskProxyManager extends WindowManager {
 
         const type = data.type;
 
-        console.log('received message from child', {
-          event,
-          data,
-          type,
-          walletUrl: this.walletUrl,
-          eventOrigin: event.origin
-        });
-
         if (event.origin !== this.walletUrl) {
-          console.error(
-            `invalid origin. expected ${this.walletUrl} and got ${event.origin}`
-          );
           return;
         }
 
         if (type === CrossWindowProviderResponseEnums.disconnectResponse) {
-          console.log('received disconnect response');
           await props?.onDisconnect?.();
           sessionStorage.clear();
           localStorage.clear();
@@ -139,7 +127,6 @@ export class MetamaskProxyManager extends WindowManager {
         }
 
         if (type === CrossWindowProviderResponseEnums.cancelResponse) {
-          console.log('received cancel response');
           this.metamaskProxyWalletComponent?.remove();
           this.walletWindow = null;
         }
