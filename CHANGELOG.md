@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- [Implement logout and cancel login response handles](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/3)
+
 ## [0.2.0] - 2024-08-07
 - [Rename IFrameProvider into MetamaskProxyProvider](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/1)
 
