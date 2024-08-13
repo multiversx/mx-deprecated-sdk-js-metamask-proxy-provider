@@ -8,10 +8,10 @@ import {
 import { WindowManager } from '@multiversx/sdk-web-wallet-cross-window-provider/out/WindowManager';
 import { safeDocument, safeWindow } from '../constants';
 import { MetamaskProxyProviderEventDataType } from '../MetamaskProxyProvider';
-import { MetamaskProxyProviderContentWindow } from './MetamaskProxyProviderContentWindow';
+import { MetamaskProxyProviderContentWindowModel } from './MetamaskProxyProviderContentWindow.model';
 
 export class MetamaskProxyManager extends WindowManager {
-  private metamaskProxyWalletComponent: MetamaskProxyProviderContentWindow | null =
+  private metamaskProxyWalletComponent: MetamaskProxyProviderContentWindowModel | null =
     null;
   private readonly iframeId = 'metamask-proxy-wallet';
 
@@ -69,6 +69,11 @@ export class MetamaskProxyManager extends WindowManager {
     }
 
     const anchor = safeDocument.getElementById?.('root');
+
+    const module = await import('./MetamaskProxyProviderContentWindow');
+    const MetamaskProxyProviderContentWindow =
+      module.MetamaskProxyProviderContentWindow;
+
     this.metamaskProxyWalletComponent = new MetamaskProxyProviderContentWindow({
       id: this.iframeId,
       anchor,

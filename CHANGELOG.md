@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/6) - 2024-08-13
+- [Fix SSR support](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/5)
+
 ## [0.3.0](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/4) - 2024-08-08
 - [Implement logout and cancel login response handles](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/3)
 
