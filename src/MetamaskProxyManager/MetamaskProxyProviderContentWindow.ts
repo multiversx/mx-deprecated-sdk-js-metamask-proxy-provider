@@ -8,9 +8,17 @@ import {
   titleElementStyle,
   toggleIconElementStyle
 } from './MetamaskProxyManager.styles';
+import { MetamaskProxyProviderContentWindowModel } from './MetamaskProxyProviderContentWindow.model';
 
-export class MetamaskProxyProviderContentWindow {
-  public iframe: HTMLIFrameElement;
+type MetamaskProxyProviderContentWindowProps = {
+  id: string;
+  url: string;
+  anchor?: HTMLElement;
+};
+
+export class MetamaskProxyProviderContentWindow
+  implements MetamaskProxyProviderContentWindowModel
+{
   public contentWindow: Window | null;
   public walletAddress = '';
 
@@ -18,8 +26,9 @@ export class MetamaskProxyProviderContentWindow {
   private readonly header: HTMLDivElement;
   private readonly title: HTMLDivElement;
   private readonly body: HTMLDivElement;
+  private readonly iframe: HTMLIFrameElement;
 
-  public constructor(props: { id: string; url: string; anchor?: HTMLElement }) {
+  public constructor(props: MetamaskProxyProviderContentWindowProps) {
     const { id, url, anchor } = props;
 
     this.container = safeDocument.createElement?.('div');

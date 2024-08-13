@@ -7,7 +7,9 @@ import {
 import {
   CrossWindowProvider,
   ICrossWindowWalletAccount
-} from '@multiversx/sdk-web-wallet-cross-window-provider/out/CrossWindowProvider';
+  // !!! IMPORTANT !!! It is necessary to import explicitly from the file because the module exports (can export) some classes
+  // that are using window API and will break the build process on the SSR environments (e.g. PopupConsent)
+} from '@multiversx/sdk-web-wallet-cross-window-provider/out/CrossWindowProvider/CrossWindowProvider';
 import {
   ErrCouldNotLogin,
   ErrProviderNotInitialized
