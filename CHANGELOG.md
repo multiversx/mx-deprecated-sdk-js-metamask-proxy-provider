@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/8) - 2024-08-14
 - [Fix provider instance](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/7)
 
 ## [0.3.1](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/6) - 2024-08-13
