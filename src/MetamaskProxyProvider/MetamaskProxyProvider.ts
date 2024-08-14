@@ -24,6 +24,7 @@ export type MetamaskProxyProviderEventDataType<
 };
 
 export class MetamaskProxyProvider extends CrossWindowProvider {
+  protected static _instance: MetamaskProxyProvider | null = null;
   protected readonly windowManager: MetamaskProxyManager;
 
   public constructor() {
