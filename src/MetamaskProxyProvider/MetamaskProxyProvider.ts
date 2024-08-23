@@ -67,6 +67,10 @@ export class MetamaskProxyProvider extends CrossWindowProvider {
     return account;
   }
 
+  public override async dispose(): Promise<boolean> {
+    return super.dispose();
+  }
+
   public override async logout(): Promise<boolean> {
     if (!this.initialized) {
       throw new ErrProviderNotInitialized();

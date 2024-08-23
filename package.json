@@ -1,6 +1,6 @@
 {
   "name": "@multiversx/sdk-metamask-proxy-provider",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Signing provider for dApps: Metamask Proxy Provider",
   "main": "out/index.js",
   "types": "out/index.d.js",
@@ -22,7 +22,7 @@
   "devDependencies": {
     "@multiversx/sdk-core": ">= 12.18.0",
     "@multiversx/sdk-dapp-utils": ">= 0.0.1",
-    "@multiversx/sdk-web-wallet-cross-window-provider": ">= 0.4.0",
+    "@multiversx/sdk-web-wallet-cross-window-provider": ">= 0.4.2",
     "@types/node": "18.19.0",
     "@typescript-eslint/eslint-plugin": "5.0.0",
     "@typescript-eslint/parser": "5.14.0",
