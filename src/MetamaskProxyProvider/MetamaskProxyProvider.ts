@@ -1,7 +1,7 @@
 import type { SignableMessage } from '@multiversx/sdk-core/out';
 import type { Transaction } from '@multiversx/sdk-core/out/transaction';
 import {
-  CrossWindowProviderResponseEnums,
+  WindowProviderResponseEnums,
   ReplyWithPostMessagePayloadType
 } from '@multiversx/sdk-dapp-utils/out';
 import {
@@ -17,7 +17,7 @@ import {
 import { MetamaskProxyManager } from '../MetamaskProxyManager/MetamaskProxyManager';
 
 export type MetamaskProxyProviderEventDataType<
-  T extends CrossWindowProviderResponseEnums
+  T extends WindowProviderResponseEnums
 > = {
   type: T;
   payload: ReplyWithPostMessagePayloadType<T>;

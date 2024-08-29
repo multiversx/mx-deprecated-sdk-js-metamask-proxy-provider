@@ -1,10 +1,10 @@
-import { CrossWindowProviderResponseEnums } from '@multiversx/sdk-dapp-utils/out';
-import { responseTypeMap } from '@multiversx/sdk-dapp-utils/out/constants/crossWindowProviderConstants';
-import { CrossWindowProviderRequestEnums } from '@multiversx/sdk-dapp-utils/out/enums/crossWindowProviderEnums';
+import { WindowProviderResponseEnums } from '@multiversx/sdk-dapp-utils/out';
+import { responseTypeMap } from '@multiversx/sdk-dapp-utils/out/constants/windowProviderConstants';
+import { WindowProviderRequestEnums } from '@multiversx/sdk-dapp-utils/out/enums/windowProviderEnums';
 import {
   PostMessageParamsType,
   PostMessageReturnType
-} from '@multiversx/sdk-dapp-utils/out/types/crossWindowProviderTypes';
+} from '@multiversx/sdk-dapp-utils/out/types';
 import { WindowManager } from '@multiversx/sdk-web-wallet-cross-window-provider/out/WindowManager';
 import { safeDocument, safeWindow } from '../constants';
 import { MetamaskProxyProviderEventDataType } from '../MetamaskProxyProvider';
@@ -26,7 +26,7 @@ export class MetamaskProxyManager extends WindowManager {
     return this.metamaskProxyWalletComponent;
   }
 
-  public override async postMessage<T extends CrossWindowProviderRequestEnums>({
+  public override async postMessage<T extends WindowProviderRequestEnums>({
     type,
     payload
   }: PostMessageParamsType<T>): Promise<PostMessageReturnType<T>> {
@@ -105,7 +105,7 @@ export class MetamaskProxyManager extends WindowManager {
   }
 
   private registerToChildResponse = <
-    T extends CrossWindowProviderResponseEnums
+    T extends WindowProviderResponseEnums
   >(props?: {
     onDisconnect?: () => Promise<boolean>;
   }) => {
@@ -120,7 +120,7 @@ export class MetamaskProxyManager extends WindowManager {
           return;
         }
 
-        if (type === CrossWindowProviderResponseEnums.disconnectResponse) {
+        if (type === WindowProviderResponseEnums.disconnectResponse) {
           await props?.onDisconnect?.();
           sessionStorage.clear();
           localStorage.clear();
