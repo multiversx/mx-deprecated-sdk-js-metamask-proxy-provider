@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- [Upgrade sdk-dapp-utils and cross-window-provider - breaking changes](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/12)
+
 ## [0.3.3](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/11) - 2024-08-23
 - [Version update](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/10)
 - [Added dispose feature](https://github.com/multiversx/mx-sdk-js-metamask-proxy-provider/pull/9)
